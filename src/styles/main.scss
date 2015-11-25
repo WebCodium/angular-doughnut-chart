@@ -1,0 +1,36 @@
+.doughnut-chart-wrapper {
+  text-align: center;
+  position: relative;
+  font-size: 0;
+  svg {
+    transform: rotate(-90deg);
+  }
+  .circle-animation {
+    stroke: #3498db;
+    transition: stroke-dashoffset 1s linear;
+  }
+  .circle-bg {
+    stroke: #e4e4e4;
+  }
+  .dough-text-suffix {
+    font-family: 'Open Sans', sans-serif;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    color: #666;
+    .dough-text, .dough-suffix{
+      vertical-align: top;
+    }
+    .dough-text {
+      font-weight: 700;
+      font-size: 44px;
+    }
+    .dough-suffix {
+      font-weight: 400;
+      font-size: 20px;
+      position: relative;
+      top: 9px;
+    }
+  }
+}
