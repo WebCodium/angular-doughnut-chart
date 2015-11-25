@@ -11,8 +11,8 @@
 <script src="./node_modules/angular/angular.js"></script>
 <script src="./dist/js/doughnutchart.js"></script>
 <script>
-    'use strict';
     angular.module('demo', ['angular-doughnut-chart']).controller('demoController', ['$scope', '$http', '$log', function ($scope, $http, $log) {
+        'use strict';
         $http.get('./server/api.json').then(function successCallback(response) {
             if (response.data.percent)
                 $scope.percent = response.data.percent;

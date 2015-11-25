@@ -5,8 +5,6 @@ angular.module('angular-doughnut-chart').service('doughnutChartService', [functi
     // credits to http://modernizr.com/ for the feature test
     service.isSupported = !!(document.createElementNS && document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect);
 
-    service.index = 0;
-
     service.getPercent = function (percent, length) {
         return (100 - percent) * length / 100;
     };
@@ -29,10 +27,6 @@ angular.module('angular-doughnut-chart').service('doughnutChartService', [functi
             cy: radius + stroke / 2
         };
     };
-
-    service.getId = function () {
-        return ++service.index;
-    }
 
     return service;
 }]);

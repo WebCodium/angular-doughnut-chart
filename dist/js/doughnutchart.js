@@ -10,8 +10,6 @@ angular.module('angular-doughnut-chart').service('doughnutChartService', [functi
     // credits to http://modernizr.com/ for the feature test
     service.isSupported = !!(document.createElementNS && document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect);
 
-    service.index = 0;
-
     service.getPercent = function (percent, length) {
         return (100 - percent) * length / 100;
     };
@@ -35,13 +33,9 @@ angular.module('angular-doughnut-chart').service('doughnutChartService', [functi
         };
     };
 
-    service.getId = function () {
-        return ++service.index;
-    }
-
     return service;
 }]);
-angular.module('angular-doughnut-chart').directive('doughnutChart', ['doughnutChartService', 'doughnutChartConfig', '$timeout', function (service, config, $timeout) {
+angular.module('angular-doughnut-chart').directive('doughnutChart', ['doughnutChartService', 'doughnutChartConfig', function (service, config) {
     'use strict';
 
     var base = {
@@ -61,11 +55,15 @@ angular.module('angular-doughnut-chart').directive('doughnutChart', ['doughnutCh
             scope.radius = config.radius;
             scope.stroke = config.stroke;
             scope.length = service.getLengthCircle(scope.radius);
-            scope.id = 'circle-animation-' + service.getId();
             scope.dashOffset = scope.length;
 
             function setDashOffset() {
-                document.getElementById(scope.id).style.strokeDashoffset = service.getPercent(scope.percentage, scope.length) + 'px';
+                scope.dashOffset = service.getPercent(scope.percentage, scope.length);
+            }
+            function firstAnimate(){
+                scope.animate = true;
+                scope.circleAnimationClass = 'circle-animation';
+                setDashOffset();
             }
 
             //set width for svg
@@ -80,9 +78,7 @@ angular.module('angular-doughnut-chart').directive('doughnutChart', ['doughnutCh
 
             //for animation on load
             if (scope.percentage) {
-                scope.animate = true;
-                $timeout(setDashOffset);
-
+                firstAnimate();
             }
 
             //watch for percentage
@@ -93,12 +89,11 @@ angular.module('angular-doughnut-chart').directive('doughnutChart', ['doughnutCh
                         setDashOffset();
                     } else {
                         //for first animation when percent gets asynchronously
-                        scope.animate = true;
-                        $timeout(setDashOffset);
+                        firstAnimate();
                     }
                 }
             });
         },
-        template: '<div class="doughnut-chart-wrapper" ng-show="percentage" style="width: {{radius * 2 + stroke}}px;"><div class="dough-text-suffix"><span class="dough-text">{{percentage}}</span><sup class="dough-suffix">%</sup></div><svg xmlns="http://www.w3.org/2000/svg"><g><circle fill="none" class="circle-bg" stroke-width="{{stroke}}"/><circle fill="none" class="circle-animation" id="{{id}}" stroke-width="{{stroke}}" style="stroke-dasharray: {{length}};stroke-dashoffset: {{dashOffset}};"/></g></svg></div>'
+        template: '<div class="doughnut-chart-wrapper" ng-show="percentage" style="width: {{radius * 2 + stroke}}px;"><div class="dough-text-suffix"><span class="dough-text">{{percentage}}</span><sup class="dough-suffix">%</sup></div><svg xmlns="http://www.w3.org/2000/svg"><g><circle fill="none" class="circle-bg" stroke-width="{{stroke}}"/><circle fill="none" class="{{circleAnimationClass}}" stroke-width="{{stroke}}" style="stroke-dasharray: {{length}};stroke-dashoffset: {{dashOffset}};"/></g></svg></div>'
     });
 }]);
