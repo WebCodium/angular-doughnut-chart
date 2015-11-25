@@ -1,0 +1,13 @@
+{
+  "name": "angular-doughnut-chart",
+  "description": "",
+  "main": "dist/js/doughnutchart.min.js",
+  "authors": [
+    "yura.l <yura.l@webcodium.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/WebCodium/angular-doughnut-chart",
+  "moduleType": [
+    "globals"
+  ]
+}
