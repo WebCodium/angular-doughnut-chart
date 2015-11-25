@@ -5,12 +5,11 @@
   svg {
     transform: rotate(-90deg);
   }
-  .circle-animation {
-    stroke: #3498db;
-    transition: stroke-dashoffset 1s linear;
-  }
   .circle-bg {
     stroke: #e4e4e4;
+  }
+  .circle-animation {
+    stroke: #3498db;
   }
   .dough-text-suffix {
     font-family: 'Open Sans', sans-serif;
@@ -19,7 +18,7 @@
     top: 50%;
     transform: translateY(-50%) translateX(-50%);
     color: #666;
-    .dough-text, .dough-suffix{
+    .dough-text, .dough-suffix {
       vertical-align: top;
     }
     .dough-text {
@@ -31,6 +30,12 @@
       font-size: 20px;
       position: relative;
       top: 9px;
+    }
+  }
+  &.doughnut-allow-animation {
+    .circle-animation {
+      stroke: #3498db;
+      transition: stroke-dashoffset 1s linear;
     }
   }
 }

@@ -1,4 +1,4 @@
-angular.module('angular-doughnut-chart').directive('doughnutChart', ['doughnutChartService', 'doughnutChartConfig', '$timeout', function (service, config, $timeout) {
+angular.module('angular-doughnut-chart').directive('doughnutChart', ['doughnutChartService', 'doughnutChartConfig', '$animateCss', function (service, config, $animateCss) {
     'use strict';
 
     var base = {
@@ -23,10 +23,12 @@ angular.module('angular-doughnut-chart').directive('doughnutChart', ['doughnutCh
             function setDashOffset() {
                 scope.dashOffset = service.getPercent(scope.percentage, scope.length);
             }
-            function firstAnimate(){
+
+            function firstAnimate() {
                 scope.animate = true;
-                scope.circleAnimationClass = 'circle-animation';
-                $timeout(setDashOffset);
+                $animateCss(element.children(), {
+                    addClass: 'doughnut-allow-animation'
+                }).start().then(setDashOffset)
             }
 
             //set width for svg
@@ -57,6 +59,6 @@ angular.module('angular-doughnut-chart').directive('doughnutChart', ['doughnutCh
                 }
             });
         },
-        template: '<div class="doughnut-chart-wrapper" ng-show="percentage" style="width: {{radius * 2 + stroke}}px;"><div class="dough-text-suffix"><span class="dough-text">{{percentage}}</span><sup class="dough-suffix">%</sup></div><svg xmlns="http://www.w3.org/2000/svg"><g><circle fill="none" class="circle-bg" stroke-width="{{stroke}}"/><circle fill="none" class="{{circleAnimationClass}}" stroke-width="{{stroke}}" style="stroke-dasharray: {{length}};stroke-dashoffset: {{dashOffset}};"/></g></svg></div>'
+        template: '<div class="doughnut-chart-wrapper" ng-show="percentage" style="width: {{radius * 2 + stroke}}px;"><div class="dough-text-suffix"><span class="dough-text">{{percentage}}</span><sup class="dough-suffix">%</sup></div><svg xmlns="http://www.w3.org/2000/svg"><g><circle fill="none" class="circle-bg" stroke-width="{{stroke}}"/><circle fill="none" class="circle-animation" stroke-width="{{stroke}}" style="stroke-dasharray: {{length}};stroke-dashoffset: {{dashOffset}};"/></g></svg></div>'
     });
 }]);
