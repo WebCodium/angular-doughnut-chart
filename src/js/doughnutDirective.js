@@ -1,4 +1,4 @@
-angular.module('angular-doughnut-chart').directive('doughnutChart', ['doughnutChartService', 'doughnutChartConfig', function (service, config) {
+angular.module('angular-doughnut-chart').directive('doughnutChart', ['doughnutChartService', 'doughnutChartConfig', '$timeout', function (service, config, $timeout) {
     'use strict';
 
     var base = {
@@ -26,7 +26,7 @@ angular.module('angular-doughnut-chart').directive('doughnutChart', ['doughnutCh
             function firstAnimate(){
                 scope.animate = true;
                 scope.circleAnimationClass = 'circle-animation';
-                setDashOffset();
+                $timeout(setDashOffset);
             }
 
             //set width for svg
