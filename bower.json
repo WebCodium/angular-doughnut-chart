@@ -9,5 +9,8 @@
   "homepage": "https://github.com/WebCodium/angular-doughnut-chart",
   "moduleType": [
     "globals"
-  ]
+  ],
+  "dependencies": {
+    "angular": "^1.4.8"
+  }
 }
