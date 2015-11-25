@@ -28,7 +28,7 @@ angular.module('angular-doughnut-chart').directive('doughnutChart', ['doughnutCh
                 scope.animate = true;
                 $animateCss(element.children(), {
                     addClass: 'doughnut-allow-animation'
-                }).start().then(setDashOffset)
+                }).start().then(setDashOffset);
             }
 
             //set width for svg
