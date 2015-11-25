@@ -23,7 +23,6 @@ var build = {
 // SOURCES CONFIG
 var source = {
     scripts: [
-        'node_modules/angular/angular.js',
         paths.scripts + 'module.js',
         paths.scripts + 'doughnutConfig.js',
         paths.scripts + 'doughnutService.js',
@@ -42,6 +41,7 @@ app.addStyle = function (paths, outputFilename) {
         .pipe($.plumber())
         .pipe($.if(config.sourceMaps, $.sourcemaps.init()))
         .pipe($.sass())
+        //I think 'autoprefixer' is a better than mixins of compass
         .pipe($.autoprefixer())
         .pipe($.if(outputFilename != undefined, $.concat(outputFilename)))
         .pipe(gulp.dest(build.styles))
@@ -57,7 +57,7 @@ app.addScript = function (paths, outputFilename) {
         .pipe($.if(config.sourceMaps, $.sourcemaps.init()))
         .pipe($.if(outputFilename != undefined, $.concat(outputFilename)))
         .pipe(gulp.dest(build.scripts))
-        //jslint - problems only in angular.js
+        //jslint - problems only with no defined angular and document varaibles
         //.pipe($.jslint())
         .pipe(config.production ? $.uglify() : $.util.noop())
         .pipe($.if(config.production, $.rename({extname: '.min.js'})))
