@@ -82,10 +82,7 @@ angular
                     }).start().then(setDashOffset);
                 }
 
-                function drawDoughNut(resize) {
-                    scope.radius = (document.querySelectorAll('.' + scope.class)[0].offsetWidth - scope.stroke) / 2;
-                    scope.length = service.getLengthCircle(scope.radius);
-                    scope.dashOffset = scope.length;
+                function callbackChangeDOffset(resize) {
                     scope.drawed = true;
                     //set cx, cy and r for circles
                     scope.circles = element.find('circle').attr(
@@ -97,6 +94,19 @@ angular
                     //for animation on load
                     if (scope.percentage && !scope.animate) {
                         firstAnimate();
+                    }
+                }
+
+                function drawDoughNut(resize) {
+                    scope.radius = (document.querySelectorAll('.' + scope.class)[0].offsetWidth - scope.stroke) / 2;
+                    scope.length = service.getLengthCircle(scope.radius);
+                    scope.dashOffset = scope.length;
+                    if (resize) {
+                        callbackChangeDOffset(true);
+                    } else {
+                        $animateCss(element.find('circle').eq(1), {
+                            to: {'stroke-dashoffset': scope.length}
+                        }).start().then(callbackChangeDOffset);
                     }
                 }
 
