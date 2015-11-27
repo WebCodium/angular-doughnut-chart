@@ -7,7 +7,9 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body ng-controller="demoController">
-<doughnut-chart percentage="percent"></doughnut-chart>
+<div class="doughnut-item">
+    <doughnut-chart percentage="percent"></doughnut-chart>
+</div>
 <script src="/bower_components/angular/angular.js"></script>
 <script src="./dist/js/doughnutchart.js"></script>
 <script>
@@ -19,6 +21,9 @@
         }, function errorCallback(response) {
             $log.error(response);
         });
+        $interval(function () {
+            $scope.percent = Math.floor(Math.random() * 100);
+        }, 3000);
     }]);
 </script>
 </body>

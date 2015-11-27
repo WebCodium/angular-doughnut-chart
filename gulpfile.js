@@ -1,7 +1,8 @@
 var gulp = require('gulp'),
     $ = require('gulp-load-plugins')(),
     del = require('del'),
-    Q = require('q');
+    Q = require('q'),
+    opn = require('opn');
 
 var config = {
     production: !!$.util.env.production,
@@ -30,6 +31,11 @@ var source = {
         watch: [paths.styles + '**/*.*']
     }
 };
+
+var server = {
+    host: 'localhost',
+    port: '8001'
+}
 
 var app = {};
 
@@ -128,11 +134,27 @@ gulp.task('watch', function () {
     gulp.watch(source.styles.watch, ['styles']);
 });
 
+gulp.task('webserver', function () {
+    gulp.src('.')
+        .pipe($.webserver({
+            host: server.host,
+            port: server.port,
+            livereload: true,
+            directoryListing: false
+        }));
+});
+
+gulp.task('openbrowser', function () {
+    opn('http://' + server.host + ':' + server.port);
+});
 
 gulp.task('assets', ['styles', 'scripts']);
 
-var tasks = ['clean', 'assets'];
+var tasks = ['clean', 'assets', 'webserver'];
 if (!config.production) {
     tasks.push('watch');
 }
+
+tasks.push('openbrowser');
+
 gulp.task('default', tasks);

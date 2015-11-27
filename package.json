@@ -26,6 +26,7 @@
     "poststart": "gulp"
   },
   "dependencies": {
-
+    "gulp-webserver": "^0.9.1",
+    "opn": "^3.0.3"
   }
 }
