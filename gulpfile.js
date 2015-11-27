@@ -128,7 +128,7 @@ gulp.task('watch', function () {
     gulp.watch(source.styles.watch, ['styles']);
 });
 
-gulp.task('webserver', function () {
+gulp.task('server', function () {
     gulp.src('.')
         .pipe($.serverLivereload({
             livereload: true,
@@ -141,7 +141,6 @@ gulp.task('assets', ['styles', 'scripts']);
 var tasks = ['clean', 'assets'];
 if (!config.production) {
     tasks.push('watch');
-    tasks.push('webserver');
 }
 
 gulp.task('default', tasks);
