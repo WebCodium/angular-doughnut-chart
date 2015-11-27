@@ -123,4 +123,3 @@ angular
             '</div>'
         });
     }]);
-//# sourceMappingURL=doughnutchart.js.map
