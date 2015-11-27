@@ -32,11 +32,6 @@ var source = {
     }
 };
 
-var server = {
-    host: 'localhost',
-    port: '8001'
-}
-
 var app = {};
 
 app.addStyle = function (paths, outputFilename) {
@@ -60,7 +55,7 @@ app.addScript = function (paths, outputFilename) {
         .pipe($.if(config.sourceMaps, $.sourcemaps.init()))
         .pipe($.if(outputFilename != undefined, $.concat(outputFilename)))
         .pipe(gulp.dest(build.scripts))
-        //jslint - problems only with no defined angular and document varaibles
+        //jslint - problems only with no defined angular, document and window varaibles and template string of directive
         //.pipe($.jslint())
         .pipe(config.production ? $.uglify() : $.util.noop())
         .pipe($.if(config.production, $.rename({extname: '.min.js'})))
@@ -136,25 +131,18 @@ gulp.task('watch', function () {
 
 gulp.task('webserver', function () {
     gulp.src('.')
-        .pipe($.webserver({
-            host: server.host,
-            port: server.port,
+        .pipe($.serverLivereload({
             livereload: true,
-            directoryListing: false
+            open: true
         }));
-});
-
-gulp.task('openbrowser', function () {
-    opn('http://' + server.host + ':' + server.port);
 });
 
 gulp.task('assets', ['styles', 'scripts']);
 
-var tasks = ['clean', 'assets', 'webserver'];
+var tasks = ['clean', 'assets'];
 if (!config.production) {
     tasks.push('watch');
+    tasks.push('webserver');
 }
-
-tasks.push('openbrowser');
 
 gulp.task('default', tasks);

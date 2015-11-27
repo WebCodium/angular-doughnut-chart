@@ -15,6 +15,7 @@
     "gulp-plumber": "^1.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.1.0",
+    "gulp-server-livereload": "^1.5.4",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.6",
@@ -25,8 +26,5 @@
     "start": "npm install",
     "poststart": "gulp"
   },
-  "dependencies": {
-    "gulp-webserver": "^0.9.1",
-    "opn": "^3.0.3"
-  }
+  "dependencies": {}
 }

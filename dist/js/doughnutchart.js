@@ -1,41 +1,40 @@
 angular
     .module('angular-doughnut-chart', [])
-    .directive('doughnutChart', ['$animateCss', '$interval', '$timeout', function ($animateCss, $interval, $timeout) {
+    .directive('doughnutChart', ['$animateCss', '$interval', function ($animateCss, $interval) {
         'use strict';
 
         var config = {
-            stroke: 14
-        };
-
-        var service = {
-            index: 0,
-            // credits to http://modernizr.com/ for the feature test
-            isSupported: !!(document.createElementNS && document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect),
-            getPercent: function (percent, length) {
-                return (100 - percent) * length / 100;
+                stroke: 14
             },
-            getLengthCircle: function (radius) {
-                return Math.floor(Math.PI * 2 * radius);
+            service = {
+                index: 0,
+                // credits to http://modernizr.com/ for the feature test
+                isSupported: !!(document.createElementNS && document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect),
+                getPercent: function (percent, length) {
+                    return (100 - percent) * length / 100;
+                },
+                getLengthCircle: function (radius) {
+                    return Math.floor(Math.PI * 2 * radius);
+                },
+                setCircleAttrs: function (radius, stroke) {
+                    return {
+                        r: radius,
+                        cx: -(radius + stroke / 2),
+                        cy: radius + stroke / 2
+                    };
+                },
+                getClass: function () {
+                    this.index += 1;
+                    return 'doughnut-chart-' + this.index;
+                }
             },
-            setCircleAttrs: function (radius, stroke) {
-                return {
-                    r: radius,
-                    cx: -(radius + stroke / 2),
-                    cy: radius + stroke / 2
-                };
-            },
-            getClass: function () {
-                return 'doughnut-chart-' + (this.index++);
-            }
-        };
-
-        var base = {
-            restrict: "E",
-            scope: {
-                percentage: "=",
-                stroke: "="
-            }
-        };
+            base = {
+                restrict: "E",
+                scope: {
+                    percentage: "=",
+                    stroke: "="
+                }
+            };
 
         //message for browsers which don't support svg
         if (!service.isSupported) {
@@ -47,17 +46,29 @@ angular
             link: function (scope, element) {
                 scope.stroke = scope.stroke || config.stroke;
 
-                function setDashOffset() {
-                    scope.oldPecentage = scope.oldPecentage || 0;
-                    scope.curPercent = scope.oldPecentage;
-                    var diff = scope.percentage - scope.oldPecentage;
-                    scope.curPercent += diff > 0 ? 1 : -1;
-                    scope.intervalText = $interval(function () {
-                        scope.curPercent += diff > 0 ? 1 : -1;
-                        if (scope.curPercent === scope.percentage)
-                            $interval.cancel(scope.intervalText);
-                    }, 1000 / Math.abs(diff));
+                function setDashOffset(resize) {
+                    $interval.cancel(scope.intervalText);
+                    if (scope.percentage !== scope.curPercent) {
+                        scope.oldPecentage = scope.oldPecentage || 0;
+                        scope.curPercent = scope.oldPecentage;
+                        var diff = scope.percentage - scope.oldPecentage;
+
+                        if (resize) {
+                            scope.curPercent = scope.percentage;
+                        } else {
+                            scope.intervalText = $interval(
+                                function () {
+                                    scope.curPercent += diff > 0 ? 1 : -1;
+                                    if (scope.curPercent === scope.percentage) {
+                                        $interval.cancel(scope.intervalText);
+                                    }
+                                },
+                                1000 / Math.abs(diff)
+                            );
+                        }
+                    }
                     $animateCss(element.find('circle').eq(1), {
+                        addClass: resize ? undefined : 'doughnut-allow-animation',
                         to: {'stroke-dashoffset': service.getPercent(scope.percentage, scope.length)}
                     }).start();
                 }
@@ -81,8 +92,7 @@ angular
                             service.setCircleAttrs(scope.radius, scope.stroke)
                         );
                         if (resize) {
-                            scope.circles.eq(1).removeClass('doughnut-allow-animation');
-                            setDashOffset();
+                            setDashOffset(true);
                         }
                         //for animation on load
                         if (scope.percentage && !scope.animate) {
@@ -111,11 +121,13 @@ angular
                     }
                 });
                 angular.element(window).on('resize', function () {
+                    scope.circles.eq(1).removeClass('doughnut-allow-animation');
+                    $interval.cancel(scope.intervalText);
                     drawDoughNut(true);
                 });
             },
             template: '<div class="doughnut-chart-wrapper">' +
-            '<div class="dough-text-suffix"><span class="dough-text">{{curPercent}}</span><sup class="dough-suffix">%</sup></div>' +
+            '<div class="dough-text-suffix"><span class="dough-text">{{curPercent}}</span><sup class="dough-suffix" ng-show="curPercent">%</sup></div>' +
             '<svg xmlns="http://www.w3.org/2000/svg">' +
             '<circle fill="none" class="circle-bg" stroke-width="{{stroke}}"/>' +
             '<circle fill="none" class="circle-animation" stroke-width="{{stroke}}" style="stroke-dasharray: {{length}};"/>' +
