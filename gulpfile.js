@@ -23,10 +23,7 @@ var build = {
 // SOURCES CONFIG
 var source = {
     scripts: [
-        paths.scripts + 'module.js',
-        paths.scripts + 'doughnutConfig.js',
-        paths.scripts + 'doughnutService.js',
-        paths.scripts + 'doughnutDirective.js'
+        paths.scripts + '*.js'
     ],
     styles: {
         app: [paths.styles + '*.*'],

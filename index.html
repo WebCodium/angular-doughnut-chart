@@ -11,7 +11,7 @@
 <script src="/bower_components/angular/angular.js"></script>
 <script src="./dist/js/doughnutchart.js"></script>
 <script>
-    angular.module('demo', ['angular-doughnut-chart']).controller('demoController', ['$scope', '$http', '$log', function ($scope, $http, $log) {
+    angular.module('demo', ['angular-doughnut-chart']).controller('demoController', ['$scope', '$http', '$log', '$interval', function ($scope, $http, $log, $interval) {
         'use strict';
         $http.get('./server/api.json').then(function successCallback(response) {
             if (response.data.percent)

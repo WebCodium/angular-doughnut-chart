@@ -1,7 +1,9 @@
 .doughnut-chart-wrapper {
   text-align: center;
   position: relative;
-  font-size: 0; }
+  font-size: 0;
+  width: 800px;
+  max-width: 100%; }
   .doughnut-chart-wrapper svg {
     -webkit-transform: rotate(-90deg);
         -ms-transform: rotate(-90deg);
@@ -10,6 +12,10 @@
     stroke: #e4e4e4; }
   .doughnut-chart-wrapper .circle-animation {
     stroke: #3498db; }
+    .doughnut-chart-wrapper .circle-animation.doughnut-allow-animation {
+      stroke: #3498db;
+      -webkit-transition: stroke-dashoffset 1s linear;
+      transition: stroke-dashoffset 1s linear; }
   .doughnut-chart-wrapper .dough-text-suffix {
     font-family: 'Open Sans', sans-serif;
     position: absolute;
@@ -29,7 +35,3 @@
       font-size: 20px;
       position: relative;
       top: 9px; }
-  .doughnut-chart-wrapper.doughnut-allow-animation .circle-animation {
-    stroke: #3498db;
-    -webkit-transition: stroke-dashoffset 1s linear;
-    transition: stroke-dashoffset 1s linear; }

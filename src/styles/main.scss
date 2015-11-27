@@ -2,6 +2,8 @@
   text-align: center;
   position: relative;
   font-size: 0;
+  width: 800px;
+  max-width: 100%;
   svg {
     transform: rotate(-90deg);
   }
@@ -10,6 +12,10 @@
   }
   .circle-animation {
     stroke: #3498db;
+    &.doughnut-allow-animation {
+      stroke: #3498db;
+      transition: stroke-dashoffset 1s linear;
+    }
   }
   .dough-text-suffix {
     font-family: 'Open Sans', sans-serif;
@@ -30,12 +36,6 @@
       font-size: 20px;
       position: relative;
       top: 9px;
-    }
-  }
-  &.doughnut-allow-animation {
-    .circle-animation {
-      stroke: #3498db;
-      transition: stroke-dashoffset 1s linear;
     }
   }
 }
