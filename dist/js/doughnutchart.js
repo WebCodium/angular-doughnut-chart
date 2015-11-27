@@ -127,7 +127,7 @@ angular
                 });
             },
             template: '<div class="doughnut-chart-wrapper">' +
-            '<div class="dough-text-suffix"><span class="dough-text">{{curPercent}}</span><sup class="dough-suffix" ng-show="curPercent">%</sup></div>' +
+            '<div class="dough-text-suffix"><span class="dough-text">{{curPercent}}</span><sup class="dough-suffix" ng-show="curPercent!=undefined">%</sup></div>' +
             '<svg xmlns="http://www.w3.org/2000/svg">' +
             '<circle fill="none" class="circle-bg" stroke-width="{{stroke}}"/>' +
             '<circle fill="none" class="circle-animation" stroke-width="{{stroke}}" style="stroke-dasharray: {{length}};"/>' +
