@@ -120,7 +120,7 @@ angular
                         }
                     }
                 });
-                angular.element(window).on('resize', function () {
+                angular.element(window).on('resize.doughnut', function () {
                     scope.circles.eq(1).removeClass('doughnut-allow-animation');
                     $interval.cancel(scope.intervalText);
                     drawDoughNut(true);
