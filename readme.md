@@ -1,6 +1,6 @@
 # Doughnut chart
 
-Before you run `gulp` command in console you need run `npm update` (no bower depedencies).
+Before you run `gulp` command in console you need run `npm install` and `bower install`.
 You need run `gulp` every time if you want to look for (watch) the project.
 Run `gulp --production` for minifying and uglifying scripts and styles.
 

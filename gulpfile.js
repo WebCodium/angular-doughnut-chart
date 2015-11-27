@@ -1,8 +1,7 @@
 var gulp = require('gulp'),
     $ = require('gulp-load-plugins')(),
     del = require('del'),
-    Q = require('q'),
-    opn = require('opn');
+    Q = require('q');
 
 var config = {
     production: !!$.util.env.production,
